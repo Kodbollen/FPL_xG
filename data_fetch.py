@@ -96,6 +96,9 @@ def scrape_player_stats():
                 except:
                     continue
                 stats = [] # country goals, assists, xg, xg_assist, npxg_xg_assist
+                stats.append(row.find_element(By.XPATH, './td[@data-stat="games"]').text)
+                stats.append(row.find_element(By.XPATH, './td[@data-stat="games_starts"]').text)
+                stats.append(row.find_element(By.XPATH, './td[@data-stat="minutes"]').text)                
                 stats.append(row.find_element(By.XPATH, './td[@data-stat="goals"]').text)
                 stats.append(row.find_element(By.XPATH, './td[@data-stat="assists"]').text)
                 stats.append(row.find_element(By.XPATH, './td[@data-stat="xg"]').text)
@@ -129,6 +132,7 @@ if __name__ == '__main__':
 
     if len(sys.argv) > 1 and sys.argv[1] == 'stats':
         stat_info = scrape_player_stats()
-        df = pd.DataFrame(stat_info, columns=['name', 'team', 'country', 'goals', 'assists', 'xg', 'xa', 'npxg_xa'])
+        df = pd.DataFrame(stat_info, columns=['name', 'team', 'country', 'games', 'starts', 'mins',
+                                              'goals', 'assists', 'xg', 'xa', 'npxg_xa'])
         df.to_csv('stat_info.csv', index=False)
 
